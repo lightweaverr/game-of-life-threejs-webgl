@@ -11,11 +11,16 @@ const GameOfLife = () => {
   const clockRef = useRef(new THREE.Clock());
 
   const [canvasSize, setCanvasSize] = useState({ width: 800, height: 600 });
+  const [cellSize, setCellSize] = useState(1);
+  const [gridSize, setGridSize] = useState(20);
+
   const parameters = {
     frustumSize: 30,
   }
 
+
   useEffect(() => {
+    
     const onWindowResize = () => {
       if (!containerRef.current) return;
 
@@ -23,6 +28,7 @@ const GameOfLife = () => {
         width: containerRef.current.offsetWidth,
         height: containerRef.current.offsetHeight
       })
+
       const aspectRatio = canvasSize.width / canvasSize.height;
 
       camera.left = parameters.frustumSize * aspectRatio / -2;
@@ -30,6 +36,8 @@ const GameOfLife = () => {
       camera.top = parameters.frustumSize / 2;
       camera.bottom = parameters.frustumSize / -2;
       camera.updateProjectionMatrix();
+
+
 
       plane.geometry.dispose();
       plane.geometry = new THREE.PlaneGeometry(parameters.frustumSize * aspectRatio, parameters.frustumSize);
@@ -39,7 +47,7 @@ const GameOfLife = () => {
 
     const animate = () => {
       renderer.render(scene, camera);
-      // cube.rotation.x += 0.01;
+
       requestAnimationFrame(animate);
     }
 
